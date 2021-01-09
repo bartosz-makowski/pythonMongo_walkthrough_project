@@ -30,11 +30,37 @@ def show_menu():
     return option
 
 
+def add_record():
+    print('')
+    first = input('Enter first name')
+    last = input('Enter last name')
+    dob = input('Enter Date of birth DD/MM/YYYY')
+    hair_color = input('Enter hair color')
+    occupation = input('Enter occupation')
+    nationality = input('Enter country of origin')
+
+    new_doc = {
+        'first': first.lower(),
+        'last': last.lower(),
+        'dob': dob,
+        'hair_color': hair_color.lower(),
+        'occupation': occupation.lower(),
+        'nationality': nationality.lower()
+    }
+
+    try:
+        coll.insert(new_doc)
+        print('')
+        print('Success')
+    except:
+        print('Dupa')
+
+
 def main_loop():
     while True:
         option = show_menu()
         if option == '1':
-            print('You have selected 1')
+            add_record()
         elif option == '2':
             print('You have selected 2')
         elif option == '3':
