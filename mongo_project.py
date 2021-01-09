@@ -24,20 +24,39 @@ def show_menu():
     print('2. Find a record by name')
     print('3. Edit a record')
     print('4. Delete a record')
-    print('5. Exit')
+    print('5. See all data')
+    print('6. Exit')
 
     option = input('Enter option:')
     return option
 
 
+def get_record():
+    print('')
+    first = input('Enter first name > ')
+    last = input('Enter last name > ')
+
+    try:
+        doc = coll.find_one({'first': first.lower(), 'last': last.lower()})
+        print(doc)
+    except:
+        print('Error accessing the database')
+
+    if not doc:
+        print('')
+        print('no results found')
+
+    return doc
+
+
 def add_record():
     print('')
-    first = input('Enter first name')
-    last = input('Enter last name')
-    dob = input('Enter Date of birth DD/MM/YYYY')
-    hair_color = input('Enter hair color')
-    occupation = input('Enter occupation')
-    nationality = input('Enter country of origin')
+    first = input('Enter first name > ')
+    last = input('Enter last name > ')
+    dob = input('Enter Date of birth DD/MM/YYYY > ')
+    hair_color = input('Enter hair color > ')
+    occupation = input('Enter occupation > ')
+    nationality = input('Enter nationality > ')
 
     new_doc = {
         'first': first.lower(),
@@ -49,11 +68,17 @@ def add_record():
     }
 
     try:
-        coll.insert(new_doc)
+        coll.insert_one(new_doc)
         print('')
         print('Success')
     except:
         print('Dupa')
+
+
+def check_all():
+    documents = coll.find()
+    for doc in documents:
+        print(doc)
 
 
 def main_loop():
@@ -62,12 +87,14 @@ def main_loop():
         if option == '1':
             add_record()
         elif option == '2':
-            print('You have selected 2')
+            get_record()
         elif option == '3':
             print('You have selected 3')
         elif option == '4':
             print('You have selected 4')
         elif option == '5':
+            check_all()
+        elif option == '6':
             conn.close()
             break
         else:
